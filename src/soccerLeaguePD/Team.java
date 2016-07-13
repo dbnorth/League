@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import soccerLeagueDAO.PlayerDAO;
 
 /**
@@ -38,8 +41,8 @@ public class Team
 	/**
 	 * The collection of the Players that play on a team.
 	 */
-	@OneToMany(mappedBy="team",targetEntity=Player.class,
-		     fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="team",targetEntity=Player.class)
 	private Collection<Player> players;
 
 	

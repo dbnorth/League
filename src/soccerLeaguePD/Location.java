@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 /**
  * The Location of the field where a game can be played.
  */
@@ -35,9 +38,8 @@ public class Location
 	/**
 	 * A collection of Games played at this Location.
 	 */
-	
-	@OneToMany(mappedBy="location",targetEntity=Game.class,
-		     fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="location",targetEntity=Game.class)
 	private Collection<Game> games;
 	/**
 	 * The team that plays its home Games at this Location.

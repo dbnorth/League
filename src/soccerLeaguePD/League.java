@@ -40,8 +40,8 @@ public class League
 	/**
 	 * A collection of Schedule of Games that the League manages
 	 */
-	 @OneToMany(mappedBy="league",targetEntity=Schedule.class,
-		     fetch=FetchType.EAGER)
+	 @LazyCollection(LazyCollectionOption.FALSE)
+	 @OneToMany(mappedBy="league",targetEntity=Schedule.class)
 	 private Collection<Schedule> schedules;
 	 
 	/**

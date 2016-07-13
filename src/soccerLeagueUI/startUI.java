@@ -15,9 +15,7 @@ public class startUI {
 		emDAO.initEM();
 //		League league = new League();
 //		league.init();
-		League league = (League) LeagueDAO.listLeague().toArray()[0];
-		
-		
+		League league = (League) LeagueDAO.listLeague().toArray()[0];	
 		printLeague(league);
 //		LeagueFrame.startGUI(league);
 

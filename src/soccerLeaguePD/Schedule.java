@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import soccerLeagueDAO.GameDAO;
 
 /**
@@ -39,8 +42,8 @@ public class Schedule
 	/**
 	 * The a collection of Games to be played
 	 */
-	@OneToMany(mappedBy="schedule",targetEntity=Game.class,
-		     fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="schedule",targetEntity=Game.class)
 	private Collection<Game> games;
 	
 	/**

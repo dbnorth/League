@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import soccerLeagueDAO.LocationDAO;
 import soccerLeagueDAO.ScheduleDAO;
 import soccerLeagueDAO.TeamDAO;
@@ -44,8 +47,8 @@ public class League
 	/**
 	 * The collection of Locations where Games are played.
 	 */
-	 @OneToMany(mappedBy="league",targetEntity=Location.class,
-		     fetch=FetchType.EAGER)
+	 @LazyCollection(LazyCollectionOption.FALSE)
+	 @OneToMany(mappedBy="league",targetEntity=Location.class)
 	 private Collection<Location> locations;
 	 
 	/**

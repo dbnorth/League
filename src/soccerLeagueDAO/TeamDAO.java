@@ -7,6 +7,9 @@ import soccerLeaguePD.Team;
 
 	public class TeamDAO {	
 
+		public static void saveTeam(Team team) {
+			emDAO.getEM().persist(team);
+		}
 		public static void addTeam(Team team) {
 			emDAO.getEM().persist(team);
 		}

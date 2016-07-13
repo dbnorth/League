@@ -7,7 +7,10 @@ import javax.persistence.Query;
 import soccerLeaguePD.League;
 public class LeagueDAO {
 		
-
+	public static void saveLeague(League league) {
+		emDAO.getEM().persist(league);
+		
+	}
 		public static void addLeague(League league) {
 			emDAO.getEM().persist(league);
 		}

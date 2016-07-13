@@ -17,7 +17,7 @@ public class startUI {
 //		league.init();
 		League league = (League) LeagueDAO.listLeague().toArray()[0];	
 		printLeague(league);
-//		LeagueFrame.startGUI(league);
+		LeagueFrame.startGUI(league);
 
 	}
 	

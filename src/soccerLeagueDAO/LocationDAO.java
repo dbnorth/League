@@ -6,6 +6,9 @@ import soccerLeaguePD.Location;
 
 	public class LocationDAO {	
 
+		public static void saveLocation(Location location) {
+			emDAO.getEM().persist(location);
+		}
 			public static void addLocation(Location location) {
 				emDAO.getEM().persist(location);
 			}

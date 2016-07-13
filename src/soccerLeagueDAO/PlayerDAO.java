@@ -6,6 +6,10 @@ import soccerLeaguePD.Player;
 
 	public class PlayerDAO {	
 
+		public static void savePlayer(Player player) {
+			emDAO.getEM().persist(player);
+		}
+		
 			public static void addPlayer(Player player) {
 				emDAO.getEM().persist(player);
 			}

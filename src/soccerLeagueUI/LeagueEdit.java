@@ -4,8 +4,10 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import soccerLeagueDAO.emDAO;
 import soccerLeaguePD.League;
 
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -47,8 +49,13 @@ public class LeagueEdit extends JPanel {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				EntityTransaction userTransaction = emDAO.getEM().getTransaction();
+				userTransaction.begin();
 				league.setName(textField.getText());
 				league.setCommissioner(textField_1.getText());
+				userTransaction.commit();
+				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new MainPanel(league));
 				currentFrame.getContentPane().revalidate();

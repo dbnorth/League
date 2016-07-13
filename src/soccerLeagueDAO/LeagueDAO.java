@@ -1,6 +1,6 @@
 package soccerLeagueDAO;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Query;
 
@@ -12,9 +12,9 @@ public class LeagueDAO {
 			emDAO.getEM().persist(league);
 		}
 
-		public static ArrayList<League> listLeague() {
+		public static List<League> listLeague() {
 			Query query = emDAO.getEM().createQuery("SELECT league FROM league league");
-			ArrayList<League> list= (ArrayList) query.getResultList();
+			List<League> list= (List) query.getResultList();
 
 			return list;
 		}

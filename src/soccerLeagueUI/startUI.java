@@ -5,6 +5,7 @@ import soccerLeaguePD.Player;
 import soccerLeaguePD.Team;
 
 import java.util.Collection;
+import java.util.List;
 
 import soccerLeagueDAO.LeagueDAO;
 import soccerLeagueDAO.emDAO;
@@ -13,10 +14,13 @@ public class startUI {
 
 	public static void main(String[] args) {
 		emDAO.initEM();
-//		League league = new League();
-//		league.init();
-		League league = (League) LeagueDAO.listLeague().toArray()[0];
-		
+		List leagues = LeagueDAO.listLeague();
+		if( leagues.isEmpty() ) {
+			final League league = new League();
+			league.init();
+			leagues = LeagueDAO.listLeague();
+		}
+		final League league = (League)leagues.get(0);
 		
 		printLeague(league);
 //		LeagueFrame.startGUI(league);

@@ -1,24 +1,22 @@
 package soccerLeagueUI;
 
-import javax.swing.JPanel;
-import javax.swing.ListModel;
-
-import soccerLeaguePD.League;
-import soccerLeaguePD.Team;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-
-import java.util.Map.Entry;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+
+import soccerLeaguePD.League;
+import soccerLeaguePD.Team;
 
 public class TeamSelectionList extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -29,11 +27,11 @@ public class TeamSelectionList extends JPanel {
 		lblTeamSelectionList.setBounds(148, 26, 138, 16);
 		add(lblTeamSelectionList);
 		
-		DefaultListModel listModel = new DefaultListModel();
+		DefaultListModel<Team> listModel = new DefaultListModel<Team>();
 		for (Team team : league.getTeams())
 		listModel.addElement(team);
 		
-		JList list = new JList(listModel);
+		JList<Team> list = new JList<Team>(listModel);
 		list.setBounds(148, 66, 138, 102);
 		add(list);
 		

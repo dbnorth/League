@@ -1,18 +1,15 @@
 package soccerLeaguePD;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -29,12 +26,10 @@ public class Schedule
     @Column(name = "schedule_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long scheduleID;
+	
 	/**
 	 * The League that organizes the Games for the Schedule
 	 */
-	/**
-	 * The League that has organized the game
-	 */	
 	@ManyToOne(optional=false)
     @JoinColumn(name="league_id",referencedColumnName="league_id") 
 	private League league;
@@ -56,7 +51,8 @@ public class Schedule
 	{
 //		games = new ArrayList<Game>();
 	}
-	public  League getLeague()
+	
+	public League getLeague()
 	{
 		return this.league;
 	}
@@ -76,7 +72,8 @@ public class Schedule
 		this.season = season;
 	}
 
-	public Collection<Game> getGames() {
+	public Collection<Game> getGames()
+	{
 		return games;
 	}
 
@@ -89,5 +86,4 @@ public class Schedule
 	{
 		GameDAO.removeGame(game);
 	}
-
 }

@@ -1,6 +1,5 @@
 package soccerLeaguePD;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -17,7 +16,6 @@ import org.hibernate.annotations.LazyCollectionOption;
 import soccerLeagueDAO.LocationDAO;
 import soccerLeagueDAO.ScheduleDAO;
 import soccerLeagueDAO.TeamDAO;
-import soccerLeagueDAO.emDAO;
 import soccerLeagueDM.LeagueDM;
 
 /**
@@ -33,34 +31,35 @@ public class League
 	/**
 	 * A collection of the Teams that complete in the League
 	 */
-	 @OneToMany(mappedBy="league",targetEntity=Team.class,
-     fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="league",targetEntity=Team.class,
+			fetch=FetchType.EAGER)
 	private Collection<Team> teams;
 	 
 	/**
 	 * A collection of Schedule of Games that the League manages
 	 */
-	 @LazyCollection(LazyCollectionOption.FALSE)
-	 @OneToMany(mappedBy="league",targetEntity=Schedule.class)
-	 private Collection<Schedule> schedules;
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="league",targetEntity=Schedule.class)
+	private Collection<Schedule> schedules;
 	 
 	/**
 	 * The collection of Locations where Games are played.
 	 */
-	 @LazyCollection(LazyCollectionOption.FALSE)
-	 @OneToMany(mappedBy="league",targetEntity=Location.class)
-	 private Collection<Location> locations;
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="league",targetEntity=Location.class)
+	private Collection<Location> locations;
 	 
 	/**
 	 * The name of the League.
 	 */
-	 @Column(name = "name", nullable = false,length = 50)
+	@Column(name = "name", nullable = false,length = 50)
 	private String name;
+	
 	/**
 	 * The name of the commissioner who manages the league.
 	 */
-	 @Column(name = "commissioner", nullable = false,length = 50)
-	 private String commissioner;
+	@Column(name = "commissioner", nullable = false,length = 50)
+	private String commissioner;
 	
 	public League()
 	{
@@ -113,6 +112,7 @@ public class League
 	{
 		LocationDAO.removeLocation(location); 
 	}
+	
 	public String getName()
 	{
 		return this.name;
@@ -123,11 +123,13 @@ public class League
 		this.name = name;
 	}
 
-	public String getCommissioner() {
+	public String getCommissioner()
+	{
 		return commissioner;
 	}
 
-	public void setCommissioner(String commissioner) {
+	public void setCommissioner(String commissioner)
+	{
 		this.commissioner = commissioner;
 	}
 	

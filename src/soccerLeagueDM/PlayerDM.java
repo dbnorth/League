@@ -18,10 +18,8 @@ public class PlayerDM {
 	{
 		System.out.println("loading players...");
 		PlayerDM.loadPlayers(league, "players.csv");
-		
 	}
 	
-
 	public static void loadPlayers(League league, String pathName) throws IOException
 	{	
 		String line = null;
@@ -38,8 +36,7 @@ public class PlayerDM {
 	    try 
 	    {
 	        // FileReader reads text files in the default encoding.
-	        FileReader fileReader = 
-	            new FileReader(pathName);
+	        FileReader fileReader = new FileReader(pathName);
 
 	        // Always wrap FileReader in BufferedReader.
 	        bufferedReader = new BufferedReader(fileReader);
@@ -49,44 +46,42 @@ public class PlayerDM {
 	        
 	        while((line = bufferedReader.readLine()) != null) 
 		    {
-		        		//split data by comma
-			        	token = line.split(",");
-			        	if ( token.length < 4)
-			        		throw new IOException("Bad file format: " + pathName);
-			        	else
-			        	{
-				        	teamName = token[0];
-				        	name = token[1];	
-				        	position = token[2];	
-				        	number = token[3];	
-			        	}
-			        	Team team = league.findTeam(teamName);
-			        Player player = new Player(team, name, position,number);
+	        	//split data by comma
+	        	token = line.split(",");
+	        	if ( token.length < 4)
+	        		throw new IOException("Bad file format: " + pathName);
+	        	else
+	        	{
+	        		teamName = token[0];
+	        		name = token[1];	
+	        		position = token[2];	
+	        		number = token[3];	
+	        	}
+	        	Team team = league.findTeam(teamName);
+	        	Player player = new Player(team, name, position,number);
+	        	//TODO
 	        }
-	        
-	        
 	    }
 	    catch(FileNotFoundException ex) 
 	    {
 	        System.out.println(
-	            "Unable to open file '" + 
-	            pathName + "'" + " at cur dir: " + System.getProperty("user.dir"));    
+	        		"Unable to open file '" + 
+	        		pathName + "'" + " at cur dir: " + System.getProperty("user.dir"));    
 	        throw ex;
 	    }
 	    catch(IOException ex) {
 	        System.out.println(
-	            "Error reading file '" 
-	            + pathName + "'");  
+	        		"Error reading file '" + pathName + "'");  
 	        throw ex;
-		
 		}
 	    finally
 	    {
-	    	 // Always close files.
-	    	if ( bufferedReader != null )
-	    		bufferedReader.close();     
+	    	// Always close files.
+	    	if ( bufferedReader != null ) {
+	    		bufferedReader.close();
+	    	}
 	    }
+	    
 	    userTransaction.commit();
 	}
 }
-

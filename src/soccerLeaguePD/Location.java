@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,17 +40,20 @@ public class Location
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy="location",targetEntity=Game.class)
 	private Collection<Game> games;
+	
 	/**
 	 * The team that plays its home Games at this Location.
 	 */
 	@OneToOne(optional=false)
     @JoinColumn(name = "team_id") 
 	private Team homeTeam;
+	
 	/**
 	 * The name of the Location.
 	 */
 	@Column(name = "name", nullable = false,length = 50)
 	private String name;
+	
 	/**
 	 * The physical address of the Location.
 	 */
@@ -94,7 +96,8 @@ public class Location
 		this.address = address;
 	}
 
-	public Collection<Game> getGames() {
+	public Collection<Game> getGames()
+	{
 		return games;
 	}
 	
@@ -103,15 +106,18 @@ public class Location
 		// Not sure what to do
 	}
 
-	public void setGames(Collection<Game> games) {
+	public void setGames(Collection<Game> games)
+	{
 		this.games = games;
 	}
 
-	public Team getHomeTeam() {
+	public Team getHomeTeam()
+	{
 		return homeTeam;
 	}
 
-	public void setHomeTeam(Team homeTeam) {
+	public void setHomeTeam(Team homeTeam)
+	{
 		this.homeTeam = homeTeam;
 	}
 

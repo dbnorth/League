@@ -1,11 +1,9 @@
 package soccerLeaguePD;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,15 +27,14 @@ public class Team
     @Column(name = "team_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long teamID;
+	
 	/**
 	 * The League that he Team plays it games in.
 	 */
-	/**
-	 * The League that has organized the game
-	 */	
 	@ManyToOne(optional=false)
     @JoinColumn(name="league_id",referencedColumnName="league_id")
 	private League league;
+	
 	/**
 	 * The collection of the Players that play on a team.
 	 */
@@ -54,6 +51,7 @@ public class Team
 	 * The name of the Team
 	 */
 	private String name;
+	
 	/**
 	 * The name of the coach for the team.
 	 */
@@ -62,7 +60,6 @@ public class Team
 	public Team()
 	{
 //		players = new ArrayList<Player>();
-
 	}
 	
 	public Team (League league, String name, String coachName)
@@ -99,7 +96,6 @@ public class Team
 		PlayerDAO.removePlayer(player);
 	}
 	
-	
 	public String getName()
 	{
 		return this.name;
@@ -120,12 +116,13 @@ public class Team
 		this.coachName = coachName;
 	}
 
-
-	public Location getHomeLocation() {
+	public Location getHomeLocation()
+	{
 		return homeLocation;
 	}
 
-	public void setHomeLocation(Location homeLocation) {
+	public void setHomeLocation(Location homeLocation)
+	{
 		this.homeLocation = homeLocation;
 	}
 	

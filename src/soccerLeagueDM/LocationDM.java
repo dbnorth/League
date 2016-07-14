@@ -34,12 +34,10 @@ public class LocationDM {
 		EntityTransaction userTransaction = emDAO.getEM().getTransaction();
 		userTransaction.begin();
 
-
 	    try 
 	    {
 	        // FileReader reads text files in the default encoding.
-	        FileReader fileReader = 
-	            new FileReader(pathName);
+	        FileReader fileReader = new FileReader(pathName);
 
 	        // Always wrap FileReader in BufferedReader.
 	        bufferedReader = new BufferedReader(fileReader);
@@ -49,19 +47,20 @@ public class LocationDM {
 	        
 	        while((line = bufferedReader.readLine()) != null) 
 		    {
-		        		//split data by comma
-			        	token = line.split(",");
-			        	if ( token.length < 2)
-			        		throw new IOException("Bad file format: " + pathName);
-			        	else
-			        	{
-				        	name = token[0];
-				        	address = token[1];
-				        	homeTeamName = token[3];
-			        	}
-			        	
-			        	Team homeTeam = league.findTeam(homeTeamName);
-			        	Location location = new Location(league, name, address, homeTeam);  
+	        	//split data by comma
+	        	token = line.split(",");
+	        	if ( token.length < 2)
+	        		throw new IOException("Bad file format: " + pathName);
+	        	else
+	        	{
+	        		name = token[0];
+	        		address = token[1];
+	        		homeTeamName = token[3];
+	        	}
+	        	
+	        	Team homeTeam = league.findTeam(homeTeamName);
+	        	Location location = new Location(league, name, address, homeTeam);
+	        	//TODO shouldn't we do something with Location here?
 	        }
 	    }
 	    catch(FileNotFoundException ex) 
@@ -76,16 +75,15 @@ public class LocationDM {
 	            "Error reading file '" 
 	            + pathName + "'");  
 	        throw ex;
-		
 		}
 	    finally
 	    {
-	    	 // Always close files.
-	    		if ( bufferedReader != null )
-	    			bufferedReader.close();   
-	    
+	    	// Always close files.
+	    	if ( bufferedReader != null ) {
+	    		bufferedReader.close();
+	    	}
 	    }
+	    
 	    userTransaction.commit();
 	}
 }
-

@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity(name = "player")
 public class Player
@@ -16,22 +15,26 @@ public class Player
     @Column(name = "player_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long playerId;
+	
 	/**
 	 * The Team the Player plays on.
 	 */
 	@ManyToOne(optional=false)
     @JoinColumn(name="team_id",referencedColumnName="team_id")
 	private Team team;
+	
 	/**
 	 * The name of the Player
 	 */
 	@Column(name = "name", nullable = false,length = 50)
 	private String name;
+	
 	/**
 	 * The position the Player plays on the Team.
 	 */
 	@Column(name = "position", nullable = false,length = 15)
 	private String position;
+	
 	/**
 	 * The number on the Player's jersey.
 	 */
@@ -51,8 +54,8 @@ public class Player
 		this.number = number;
 		this.team = team;
 		team.addPlayer(this);
-		
 	}
+	
 	public Team getTeam()
 	{
 		return this.team;

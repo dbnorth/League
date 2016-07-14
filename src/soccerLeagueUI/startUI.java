@@ -1,21 +1,25 @@
 package soccerLeagueUI;
 
-import soccerLeaguePD.League;
-import soccerLeaguePD.Player;
-import soccerLeaguePD.Team;
-
-import java.util.Collection;
+import java.util.List;
 
 import soccerLeagueDAO.LeagueDAO;
 import soccerLeagueDAO.emDAO;
+import soccerLeaguePD.League;
+import soccerLeaguePD.Player;
+import soccerLeaguePD.Team;
 
 public class startUI {
 
 	public static void main(String[] args) {
 		emDAO.initEM();
-//		League league = new League();
-//		league.init();
-		League league = (League) LeagueDAO.listLeague().toArray()[0];	
+		List<League> leagues = LeagueDAO.listLeague();
+		if( leagues.isEmpty() ) {
+			final League league = new League();
+			league.init();
+			leagues = LeagueDAO.listLeague();
+		}
+		final League league = leagues.get(0);
+		
 		printLeague(league);
 //		LeagueFrame.startGUI(league);
 

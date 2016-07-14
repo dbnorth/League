@@ -93,6 +93,16 @@ public class Location
 	{
 		this.address = address;
 	}
+	
+	public League getLeague()
+	{
+		return league;
+	}
+	
+	public void setLeague(League league)
+	{
+		this.league = league;
+	}
 
 	public Collection<Game> getGames() {
 		return games;
@@ -113,6 +123,11 @@ public class Location
 
 	public void setHomeTeam(Team homeTeam) {
 		this.homeTeam = homeTeam;
+	}
+	
+	public boolean isOkToRemove()
+	{
+		return true;
 	}
 
 	public String toString()

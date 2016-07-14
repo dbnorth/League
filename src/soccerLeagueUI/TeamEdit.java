@@ -1,28 +1,38 @@
 package soccerLeagueUI;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import soccerLeagueDAO.emDAO;
 import soccerLeaguePD.League;
+import soccerLeaguePD.Location;
+import soccerLeaguePD.Player;
 import soccerLeaguePD.Team;
 
 import javax.persistence.EntityTransaction;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JComboBox;
 
 public class TeamEdit extends JPanel {
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
+	JComboBox<Location> comboBox;
 
 	/**
 	 * Create the panel.
 	 */
 	public TeamEdit(Team team, League league, JFrame currentFrame, boolean isAdd) {
+		
+		emDAO.getEM().refresh(league);
+		if (!isAdd) emDAO.getEM().refresh(team);
+		
 		setLayout(null);
 		
 		JLabel lblTeamEdit = new JLabel("Team Edit");
@@ -30,41 +40,42 @@ public class TeamEdit extends JPanel {
 		add(lblTeamEdit);
 		
 		JLabel lblName = new JLabel("Name :");
-		lblName.setBounds(146, 69, 61, 16);
+		lblName.setBounds(47, 65, 61, 16);
 		add(lblName);
 		
 		textField = new JTextField(team.getName());
-		textField.setBounds(219, 63, 134, 28);
+		textField.setBounds(120, 59, 134, 28);
 		add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblCoach = new JLabel("Coach :");
-		lblCoach.setBounds(146, 109, 61, 16);
+		lblCoach.setBounds(47, 105, 61, 16);
 		add(lblCoach);
 		
 		textField_1 = new JTextField(team.getCoachName());
-		textField_1.setBounds(219, 103, 134, 28);
+		textField_1.setBounds(120, 99, 134, 28);
 		add(textField_1);
 		textField_1.setColumns(10);
 		
 		JLabel lblHomeField = new JLabel("Home Field :");
-		lblHomeField.setBounds(118, 149, 99, 16);
+		lblHomeField.setBounds(19, 145, 99, 16);
 		add(lblHomeField);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(219, 143, 134, 28);
-		add(textField_2);
-		textField_2.setColumns(10);
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				EntityTransaction userTransaction = emDAO.getEM().getTransaction();
 				userTransaction.begin();
 				team.setName(textField.getText());
 				team.setCoachName(textField_1.getText());
-				if (isAdd) league.addTeam(team);
+				team.setHomeLocation((Location) comboBox.getSelectedItem());
+				if (isAdd) {
+					team.setLeague(league);
+					league.addTeam(team);
+				}
 				userTransaction.commit();
+				
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new TeamSelectionList(league,currentFrame));
 				currentFrame.getContentPane().revalidate();
@@ -83,7 +94,65 @@ public class TeamEdit extends JPanel {
 		});
 		btnCancel.setBounds(219, 242, 117, 29);
 		add(btnCancel);
+		
+		DefaultListModel listModel = new DefaultListModel();
+		for (Player player : team.getPlayers())
+		listModel.addElement(player);
+		
+		JList list = new JList(listModel);
+		list.setBounds(276, 65, 134, 103);
+//		add(list);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(276, 65, 134, 103);
+		scrollPane.setViewportView(list);
+		add(scrollPane);
 
+		
+		JButton btnAdd = new JButton("Add ");
+		btnAdd.setBounds(241, 180, 74, 29);
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new PlayerEdit(new Player(),team,league, currentFrame,isAdd, true));
+				currentFrame.getContentPane().revalidate();
+			}
+		});
+		add(btnAdd);
+		
+		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setBounds(305, 180, 74, 29);
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new PlayerEdit((Player) list.getSelectedValue(),team,league, currentFrame,isAdd, false));
+				currentFrame.getContentPane().revalidate();
+	
+			}
+		});
+		add(btnUpdate);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBounds(370, 180, 74, 29);
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Player player = (Player) list.getSelectedValue();
+					EntityTransaction userTransaction = emDAO.getEM().getTransaction();
+					userTransaction.begin();
+					team.removePlayer(player);
+					userTransaction.commit();
+				currentFrame.getContentPane().removeAll();
+				currentFrame.getContentPane().add(new TeamEdit(team,league, currentFrame,isAdd));
+				currentFrame.getContentPane().revalidate();
+			}
+		});
+		add(btnDelete);
+		
+		comboBox = new JComboBox();
+		for (Location location : league.getLocations())
+		comboBox.addItem(location);
+		if (!isAdd) comboBox.setSelectedItem(team.getHomeLocation());
+		comboBox.setBounds(120, 141, 129, 27);
+		add(comboBox);
 	}
-
 }

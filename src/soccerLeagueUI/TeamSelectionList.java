@@ -1,8 +1,10 @@
 package soccerLeagueUI;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 
+import soccerLeagueDAO.emDAO;
 import soccerLeaguePD.League;
 import soccerLeaguePD.Team;
 
@@ -11,6 +13,7 @@ import javax.swing.JList;
 
 import java.util.Map.Entry;
 
+import javax.persistence.EntityTransaction;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +26,7 @@ public class TeamSelectionList extends JPanel {
 	 * Create the panel.
 	 */
 	public TeamSelectionList(League league, JFrame currentFrame) {
+		emDAO.getEM().refresh(league);
 		setLayout(null);
 	
 		JLabel lblTeamSelectionList = new JLabel("Team Selection List");
@@ -35,7 +39,12 @@ public class TeamSelectionList extends JPanel {
 		
 		JList list = new JList(listModel);
 		list.setBounds(148, 66, 138, 102);
-		add(list);
+//		add(list);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(148, 66, 138, 102);
+		scrollPane.setViewportView(list);
+		add(scrollPane);
 		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
@@ -65,7 +74,13 @@ public class TeamSelectionList extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Team team = (Team) list.getSelectedValue();
 				if (team.isOkToRemove())
+				{
+					EntityTransaction userTransaction = emDAO.getEM().getTransaction();
+					userTransaction.begin();
 					league.removeTeam(team);
+					userTransaction.commit();
+				}
+					
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new TeamSelectionList(league, currentFrame));
 				currentFrame.getContentPane().revalidate();

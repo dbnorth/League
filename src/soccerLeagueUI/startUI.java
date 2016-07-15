@@ -21,7 +21,7 @@ public class startUI {
 		final League league = leagues.get(0);
 		
 		printLeague(league);
-//		LeagueFrame.startGUI(league);
+		LeagueFrame.startGUI(league);
 
 	}
 	

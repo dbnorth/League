@@ -4,9 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import soccerLeagueDAO.emDAO;
 import soccerLeaguePD.League;
 import soccerLeaguePD.Team;
 
+import javax.persistence.EntityTransaction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.event.ActionListener;
@@ -60,9 +62,12 @@ public class TeamEdit extends JPanel {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				EntityTransaction userTransaction = emDAO.getEM().getTransaction();
+				userTransaction.begin();
 				team.setName(textField.getText());
 				team.setCoachName(textField_1.getText());
 				if (isAdd) league.addTeam(team);
+				userTransaction.commit();
 				currentFrame.getContentPane().removeAll();
 				currentFrame.getContentPane().add(new TeamSelectionList(league,currentFrame));
 				currentFrame.getContentPane().revalidate();

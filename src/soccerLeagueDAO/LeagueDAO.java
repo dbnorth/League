@@ -11,7 +11,11 @@ public class LeagueDAO {
 	{
 		emDAO.getEM().persist(league);
 	}
-
+		
+	public static void saveLeague(League league) {
+		emDAO.getEM().persist(league);
+		
+	}
 	public static List<League> listLeague()
 	{
 		TypedQuery<League> query = emDAO.getEM().createQuery(

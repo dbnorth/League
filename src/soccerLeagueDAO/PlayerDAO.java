@@ -12,7 +12,6 @@ public class PlayerDAO {
 	{
 		emDAO.getEM().persist(player);
 	}
-
 	public static List<Player> listPlayer()
 	{
 		TypedQuery<Player> query = emDAO.getEM().createQuery(

@@ -8,8 +8,10 @@ import soccerLeaguePD.Game;
 
 public class GameDAO {	
 
-	public static void addGame(Game game)
-	{
+	public static void saveGame(Game game) {
+		emDAO.getEM().persist(game);
+	}
+	public static void addGame(Game game) {
 		emDAO.getEM().persist(game);
 	}
 

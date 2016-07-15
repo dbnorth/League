@@ -8,10 +8,15 @@ import soccerLeaguePD.Schedule;
 
 public class ScheduleDAO {	
 
-	public static void addSchedule(Schedule schedule)
-	{
+
+
+	public static void saveSchedule(Schedule schedule) {
 		emDAO.getEM().persist(schedule);
 	}
+	
+	public static void addSchedule(Schedule schedule) {
+			emDAO.getEM().persist(schedule);
+		}
 
 	public static List<Schedule> listSchedule()
 	{

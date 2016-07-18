@@ -42,7 +42,7 @@ public class Game implements Serializable
 	 * The Location where the game is played.
 	 */
 
-	@ManyToOne(optional=false)
+	@OneToOne(optional=false)
     @JoinColumn(name="location_id",referencedColumnName="location_id")
 	private Location location;
 	/**

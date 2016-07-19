@@ -20,9 +20,11 @@ public class startUI {
 		}
 		final League league = leagues.get(0);
 		
-		printLeague(league);
+		if( args.length == 0 || !"-q".equals( args[0] ) ) {
+			printLeague(league);
+		}
+		
 		LeagueFrame.startGUI(league);
-
 	}
 	
 	public static void printLeague(League league)

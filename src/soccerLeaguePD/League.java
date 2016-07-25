@@ -76,11 +76,13 @@ public class League
 	public void addTeam(Team team)
 	{
 		TeamDAO.addTeam(team);
+		
 	}
 	
 	public void removeTeam(Team team)
 	{
 		TeamDAO.removeTeam(team);
+		
 	}
 
 	public Collection<Schedule> getSchedules()
@@ -91,11 +93,13 @@ public class League
 	public void addSchedule(Schedule schedule)
 	{
 		ScheduleDAO.addSchedule(schedule);
+		
 	}
 	
 	public void removeSchedule(Schedule schedule)
 	{
 		ScheduleDAO.removeSchedule(schedule);
+		
 	}
 
 	public Collection<Location> getLocations()
@@ -106,11 +110,13 @@ public class League
 	public void addLocation(Location location)
 	{
 		LocationDAO.addLocation(location);
+		
 	}
 	
 	public void removeLocation(Location location)
 	{
 		LocationDAO.removeLocation(location); 
+	
 	}
 	
 	public String getName()

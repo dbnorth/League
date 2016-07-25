@@ -62,6 +62,14 @@ public class LeagueFrame extends JFrame {
 		mnMaintain.add(mntmLeague);
 		
 		JMenuItem mntmLocations = new JMenuItem("Locations");
+		mntmLocations.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				getContentPane().add(new LocationSelectionList(league,currentFrame));
+				getContentPane().revalidate();
+
+			}
+		});
 		mnMaintain.add(mntmLocations);
 		
 		JMenuItem mntmTeams = new JMenuItem("Teams");

@@ -1,41 +1,44 @@
 package soccerLeagueUI;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListModel;
+
+import soccerLeagueDAO.emDAO;
+import soccerLeaguePD.League;
+import soccerLeaguePD.Location;
+import soccerLeaguePD.Team;
+
+import javax.swing.JLabel;
+import javax.swing.JList;
+
+import java.util.Map.Entry;
 
 import javax.persistence.EntityTransaction;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-import soccerLeagueDAO.emDAO;
-import soccerLeaguePD.League;
-import soccerLeaguePD.Team;
+public class LocationSelectionList extends JPanel {
 
-public class TeamSelectionList extends JPanel {
-
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * Create the panel.
 	 */
-	public TeamSelectionList(League league, JFrame currentFrame) {
+	public LocationSelectionList(League league, JFrame currentFrame) {
 		emDAO.getEM().refresh(league);
 		setLayout(null);
 	
-		JLabel lblTeamSelectionList = new JLabel("Team Selection List");
+		JLabel lblTeamSelectionList = new JLabel("Location Selection List");
 		lblTeamSelectionList.setBounds(148, 26, 138, 16);
 		add(lblTeamSelectionList);
 		
-		DefaultListModel<Team> listModel = new DefaultListModel<Team>();
-		for (Team team : league.getTeams())
-		listModel.addElement(team);
+		DefaultListModel listModel = new DefaultListModel();
+		for (Location location : league.getLocations())
+		listModel.addElement(location);
 		
-		JList<Team> list = new JList<Team>(listModel);
+		JList list = new JList(listModel);
 		list.setBounds(148, 66, 138, 102);
 //		add(list);
 		
@@ -48,7 +51,7 @@ public class TeamSelectionList extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new TeamEdit(new Team(),league, currentFrame,true));
+				currentFrame.getContentPane().add(new LocationEdit(new Location(),league, currentFrame,true));
 				currentFrame.getContentPane().revalidate();
 			}
 		});
@@ -59,7 +62,7 @@ public class TeamSelectionList extends JPanel {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new TeamEdit((Team) list.getSelectedValue(),league, currentFrame,false));
+				currentFrame.getContentPane().add(new LocationEdit((Location) list.getSelectedValue(),league, currentFrame,false));
 				currentFrame.getContentPane().revalidate();
 	
 			}
@@ -70,17 +73,17 @@ public class TeamSelectionList extends JPanel {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Team team = (Team) list.getSelectedValue();
-				if (team.isOkToRemove())
+				Location location = (Location) list.getSelectedValue();
+				if (location.isOkToRemove())
 				{
 					EntityTransaction userTransaction = emDAO.getEM().getTransaction();
 					userTransaction.begin();
-					league.removeTeam(team);
+					league.removeLocation(location);
 					userTransaction.commit();
 				}
 					
 				currentFrame.getContentPane().removeAll();
-				currentFrame.getContentPane().add(new TeamSelectionList(league, currentFrame));
+				currentFrame.getContentPane().add(new LocationSelectionList(league, currentFrame));
 				currentFrame.getContentPane().revalidate();
 	
 			}

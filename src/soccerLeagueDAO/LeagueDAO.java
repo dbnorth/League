@@ -16,6 +16,7 @@ public class LeagueDAO {
 		emDAO.getEM().persist(league);
 		
 	}
+
 	public static List<League> listLeague()
 	{
 		TypedQuery<League> query = emDAO.getEM().createQuery(
@@ -28,7 +29,7 @@ public class LeagueDAO {
 		League league = emDAO.getEM().find(League.class, new Integer(id));
 		return league;
 	}
-
+	
 	public static void removeLeague(League league)
 	{
 		emDAO.getEM().remove(league);

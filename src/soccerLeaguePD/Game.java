@@ -1,6 +1,9 @@
 package soccerLeaguePD;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import utility.SimpleDate;
 
@@ -54,8 +59,10 @@ public class Game implements Serializable
 	/**
 	 * The date the Game is played.
 	 */
-	@Column(name = "date") 
-	private SimpleDate date;
+
+	@Column(name = "date", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date;
 	
 	/**
 	 * The number of goals Scored by the home Team in regulation.
@@ -86,7 +93,7 @@ public class Game implements Serializable
 		
 	}
 	
-	public Game(Schedule schedule,Team homeTeam, Team visitingTeam, SimpleDate date)
+	public Game(Schedule schedule,Team homeTeam, Team visitingTeam, Date date)
 	{
 		this.homeTeam = homeTeam;
 		this.visitingTeam = visitingTeam;
@@ -135,16 +142,43 @@ public class Game implements Serializable
 		this.location = location;
 	}
 
-	public SimpleDate getDate()
+	public Date getDate()
 	{
 		return this.date;
 	}
+	
+	public String getDateString()
+	{
+		if (date !=null)
+		{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+			String dateString = sdf.format(date);
+			return dateString;
+		}
+		else
+			return "";
+		
+	}
 
-	public void setDate(SimpleDate date)
+	public void setDate(Date date)
 	{
 		this.date = date;
 	}
+	
+	public void setDate (String dateString)  
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+		try
+		{
+			date = sdf.parse(dateString);
+		}
+		catch (ParseException e)
+		{
+		
+		}
 
+	}
+		
 	public int getHomeTeamScore()
 	{
 		return this.homeTeamScore;
@@ -187,11 +221,12 @@ public class Game implements Serializable
 	
 	public Boolean isOkToRemove()
 	{
-		if (getDate().before(new SimpleDate()))return true;
+		if (getDate().before(new Date()))return true;
 		else return false;
 	}
+	
 	public String toString()
 	{
-		return getDate().toString()+":"+getHomeTeam().getName()+" vs. "+ getVisitingTeam().getName();
+		return getDateString()+":"+getHomeTeam().getName()+" vs. "+ getVisitingTeam().getName();
 	}
 }

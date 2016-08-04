@@ -50,10 +50,8 @@ public class GameEdit extends JPanel {
 		JLabel lblName = new JLabel("Date:");
 		lblName.setBounds(47, 65, 61, 16);
 		add(lblName);
-		if (game.getDate() != null)
-			textField = new JTextField(game.getDate().toString());
-		else
-			textField = new JTextField();	
+		
+		textField = new JTextField(game.getDateString());
 		textField.setBounds(145, 59, 134, 28);
 		add(textField);
 		textField.setColumns(10);
@@ -64,7 +62,7 @@ public class GameEdit extends JPanel {
 				
 				EntityTransaction userTransaction = emDAO.getEM().getTransaction();
 				userTransaction.begin();
-				game.setDate(new SimpleDate(textField.getText()));
+				game.setDate(textField.getText());
 				game.setHomeTeam((Team) comboBox.getSelectedItem());
 				game.setVisitingTeam((Team) comboBox_1.getSelectedItem());
 				game.setLocation(game.getHomeTeam().getHomeLocation());

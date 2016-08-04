@@ -62,7 +62,7 @@ public class Location
 	
 	public Location ()
 	{
-		this.games = new ArrayList<Game>();
+	//	this.games = new ArrayList<Game>();
 	}
 	
 	public Location (League league, String name, String address, Team homeTeam)

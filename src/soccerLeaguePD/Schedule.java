@@ -1,5 +1,6 @@
 package soccerLeaguePD;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import soccerLeagueDAO.GameDAO;
+import utility.SimpleDate;
 
 /**
  * A Schedule is a list of the Games played in a Session for a League.
@@ -85,5 +87,14 @@ public class Schedule
 	public void removeGame(Game game)
 	{
 		GameDAO.removeGame(game);
+	}
+	public Boolean isOkToRemove()
+	{
+		if (getGames().size() == 0)return true;
+		else return false;
+	}
+	public String toString()
+	{
+		return getSeason();
 	}
 }

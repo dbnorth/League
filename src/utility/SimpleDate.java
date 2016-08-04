@@ -5,7 +5,11 @@ import java.util.GregorianCalendar;
 
 @SuppressWarnings("serial")
 public class SimpleDate extends GregorianCalendar {
-
+	public SimpleDate()
+	{
+		super();
+	}
+	
 	public SimpleDate(String date)
 	{
 		String[] ed;

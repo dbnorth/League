@@ -83,14 +83,25 @@ public class LeagueFrame extends JFrame {
 		});
 		mnMaintain.add(mntmTeams);
 		
-		JMenu mnScheudle = new JMenu("Schedule");
-		menuBar.add(mnScheudle);
+		JMenuItem mntmSchedule = new JMenuItem("Schedule");
+		mntmSchedule.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getContentPane().removeAll();
+				getContentPane().add(new ScheduleSelectionList(league,currentFrame));
+				getContentPane().revalidate();
+				
+			}
+		});
+		mnMaintain.add(mntmSchedule);
+		
+		JMenu mnSchedule = new JMenu("Schedule");
+		menuBar.add(mnSchedule);
 		
 		JMenuItem mntmGenerate = new JMenuItem("Generate");
-		mnScheudle.add(mntmGenerate);
+		mnSchedule.add(mntmGenerate);
 		
 		JMenuItem mntmEdit = new JMenuItem("Edit");
-		mnScheudle.add(mntmEdit);
+		mnSchedule.add(mntmEdit);
 		
 		JMenu mnReports = new JMenu("Reports");
 		menuBar.add(mnReports);
@@ -101,8 +112,8 @@ public class LeagueFrame extends JFrame {
 		JMenuItem mntmTeam = new JMenuItem("Team");
 		mnReports.add(mntmTeam);
 		
-		JMenuItem mntmSchedule = new JMenuItem("Schedule");
-		mnReports.add(mntmSchedule);
+		JMenuItem mntm1Schedule = new JMenuItem("Schedule");
+		mnReports.add(mntm1Schedule);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));

@@ -78,8 +78,8 @@ public class Game implements Serializable
 	/**
 	 * The number of PK's scored by the visiting Team in a tie.
 	 */
-	@Column(name = "visting_team_pk")
-	private int vistingTeamPK;
+	@Column(name = "visiting_team_pk")
+	private int visitingTeamPK;
 	
 	public Game()
 	{
@@ -93,6 +93,16 @@ public class Game implements Serializable
 		this.date = date;
 		this.location = homeTeam.getHomeLocation();
 		schedule.addGame(this);
+	}
+	
+	public Schedule getSchedule()
+	{
+		return this.schedule;
+	}
+	
+	public void setSchedule(Schedule schedule)
+	{
+		this.schedule = schedule;
 	}
 	
 	public Team getHomeTeam()
@@ -110,9 +120,9 @@ public class Game implements Serializable
 		return this.visitingTeam;
 	}
 
-	public void setVistingTeam(Team vistingTeam)
+	public void setVisitingTeam(Team visitingTeam)
 	{
-		this.visitingTeam = vistingTeam;
+		this.visitingTeam = visitingTeam;
 	}
 
 	public Location getLocation()
@@ -165,13 +175,23 @@ public class Game implements Serializable
 		this.homeTeamPK = homeTeamPK;
 	}
 
-	public int getVistingTeamPK()
+	public int getVisitingTeamPK()
 	{
-		return this.vistingTeamPK;
+		return this.visitingTeamPK;
 	}
 
-	public void setVistingTeamPK(int vistingTeamPK)
+	public void setVisitingTeamPK(int visitingTeamPK)
 	{
-		this.vistingTeamPK = vistingTeamPK;
+		this.visitingTeamPK = visitingTeamPK;
+	}
+	
+	public Boolean isOkToRemove()
+	{
+		if (getDate().before(new SimpleDate()))return true;
+		else return false;
+	}
+	public String toString()
+	{
+		return getDate().toString()+":"+getHomeTeam().getName()+" vs. "+ getVisitingTeam().getName();
 	}
 }

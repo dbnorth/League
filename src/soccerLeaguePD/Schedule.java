@@ -22,6 +22,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import soccerLeagueDAO.GameDAO;
+import soccerLeagueDAO.emDAO;
 import utility.SimpleDate;
 
 /**
@@ -144,20 +145,48 @@ public class Schedule
 	{
 		Team[] teamArray = getLeague().getTeams().toArray(new Team[getLeague().getTeams().size()]);
 		
-		Date[] gameDate = new Date[teamArray.length];
-		for (int d =0;d<teamArray.length;d++)
+		Date[] gameDate = new Date[(teamArray.length-1)*2];
+		for (int d =0;d<(teamArray.length-1)*2;d+=2)
 		{
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(startDate);
 			cal.add(Calendar.DATE, d*7);  
 			gameDate[d] = cal.getTime();
+			cal.add(Calendar.DATE, d*7+4);  
+			gameDate[d+1] = cal.getTime();
 		}
 		for (int i=0;i<teamArray.length;i++)
-			for (int j = i;j<teamArray.length;j++ )
+			for (int j=0;j<teamArray.length;j++)
 			{
-				Game game = new Game(this,teamArray[i],teamArray[j],gameDate[j]);
+				if (i!=j) 
+				{
+					Date availibleGameDate= null;
+					for (int d=0;d<gameDate.length;d++)
+					{
+						if (!teamHasGame(teamArray[i],gameDate[d])&& !teamHasGame(teamArray[j],gameDate[d]))
+						{
+							availibleGameDate = gameDate[d];
+							break;
+						}
+					}
+					Game game = new Game(this,teamArray[i],teamArray[j],availibleGameDate);
+					emDAO.getEM().refresh(this);
+				}
 			}
-			
+	}
+	
+	public boolean teamHasGame(Team team, Date gameDate)
+	{
+		boolean hasGame = true;
+		for (Game g : getGames())
+		{ 
+			if (g.getDate().compareTo((gameDate))==0)
+			{
+				hasGame = false;
+				break;
+			}
+		}
+		return hasGame;
 	}
 	public String toString()
 	{

@@ -38,21 +38,21 @@ public class Game implements Serializable
 	/**
 	 * The Team that is the home Team for the Game,
 	 */
-	@OneToOne(optional=false)
+	@ManyToOne(optional=false)
     @JoinColumn(name = "hometeam_id",referencedColumnName="team_id") 
 	private Team homeTeam;
 	
 	/**
 	 * The Team that is the visiting team for the Game.
 	 */
-	@OneToOne(optional=false)
+	@ManyToOne(optional=false)
     @JoinColumn(name = "visitingteam_id",referencedColumnName="team_id") 
 	private Team visitingTeam;
 	
 	/**
 	 * The Location where the game is played.
 	 */
-	@OneToOne(optional=false)
+	@ManyToOne(optional=false)
     @JoinColumn(name="location_id",referencedColumnName="location_id")
 	private Location location;
 	
@@ -99,6 +99,7 @@ public class Game implements Serializable
 		this.visitingTeam = visitingTeam;
 		this.date = date;
 		this.location = homeTeam.getHomeLocation();
+		this.schedule = schedule;
 		schedule.addGame(this);
 	}
 	
@@ -151,7 +152,7 @@ public class Game implements Serializable
 	{
 		if (date !=null)
 		{
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 			String dateString = sdf.format(date);
 			return dateString;
 		}
@@ -167,14 +168,14 @@ public class Game implements Serializable
 	
 	public void setDate (String dateString)  
 	{
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		try
 		{
 			date = sdf.parse(dateString);
 		}
 		catch (ParseException e)
 		{
-		
+			date = new Date();
 		}
 
 	}
@@ -223,6 +224,19 @@ public class Game implements Serializable
 	{
 		if (getDate().before(new Date()))return true;
 		else return false;
+	}
+	
+	public Team getWinner()
+	{
+		if (getHomeTeamScore() > getVisitingTeamScore())
+			return getHomeTeam();
+		if (getVisitingTeamScore() > getHomeTeamScore())
+			return getVisitingTeam();
+		if (getHomeTeamPK() > getVisitingTeamPK())
+			return getHomeTeam();
+		if (getVisitingTeamPK() > getHomeTeamPK())
+			return getVisitingTeam();
+		return null;
 	}
 	
 	public String toString()

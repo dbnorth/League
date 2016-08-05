@@ -1,7 +1,11 @@
 package soccerLeaguePD;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -48,6 +54,14 @@ public class Schedule
 	 */
 	@Column(name = "season", nullable = false,length = 10)
 	private String season;
+	
+	/**
+	 * The date the Season starts.
+	 */
+
+	@Column(name = "start_date", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date startDate;
 
 	public Schedule()
 	{
@@ -73,7 +87,39 @@ public class Schedule
 	{
 		this.season = season;
 	}
+	public Date getStartDate()
+	{
+		return this.startDate;
+	}
+	public String getStartDateString()
+	{
+		if (startDate !=null)
+		{
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+			String dateString = sdf.format(startDate);
+			return dateString;
+		}
+		else
+			return "";
+		
+	}
+	public void setStartDate(Date date)
+	{
+		this.startDate= date;
+	}
+	public void setStartDate (String startDateString)  
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		try
+		{
+			startDate = sdf.parse(startDateString);
+		}
+		catch (ParseException e)
+		{
+			startDate = new Date();
+		}
 
+	}
 	public Collection<Game> getGames()
 	{
 		return games;
@@ -92,6 +138,26 @@ public class Schedule
 	{
 		if (getGames().size() == 0)return true;
 		else return false;
+	}
+	
+	public void generateSchedule()
+	{
+		Team[] teamArray = getLeague().getTeams().toArray(new Team[getLeague().getTeams().size()]);
+		
+		Date[] gameDate = new Date[teamArray.length];
+		for (int d =0;d<teamArray.length;d++)
+		{
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(startDate);
+			cal.add(Calendar.DATE, d*7);  
+			gameDate[d] = cal.getTime();
+		}
+		for (int i=0;i<teamArray.length;i++)
+			for (int j = i;j<teamArray.length;j++ )
+			{
+				Game game = new Game(this,teamArray[i],teamArray[j],gameDate[j]);
+			}
+			
 	}
 	public String toString()
 	{

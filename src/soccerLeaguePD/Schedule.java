@@ -144,16 +144,18 @@ public class Schedule
 	public void generateSchedule()
 	{
 		Team[] teamArray = getLeague().getTeams().toArray(new Team[getLeague().getTeams().size()]);
+		Date[] gameDate = new Date[(teamArray.length-1)*2+4];
 		
-		Date[] gameDate = new Date[(teamArray.length-1)*2];
-		for (int d =0;d<(teamArray.length-1)*2;d+=2)
+		for (int d =0;d<(teamArray.length-1)*2+4;d+=2)
 		{
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(startDate);
 			cal.add(Calendar.DATE, d*7);  
 			gameDate[d] = cal.getTime();
+			System.out.println(gameDate[d]);
 			cal.add(Calendar.DATE, d*7+4);  
 			gameDate[d+1] = cal.getTime();
+			System.out.println(gameDate[d+1]);
 		}
 		for (int i=0;i<teamArray.length;i++)
 			for (int j=0;j<teamArray.length;j++)
@@ -163,13 +165,16 @@ public class Schedule
 					Date availibleGameDate= null;
 					for (int d=0;d<gameDate.length;d++)
 					{
-						if (!teamHasGame(teamArray[i],gameDate[d])&& !teamHasGame(teamArray[j],gameDate[d]))
+						if (!teamHasGame(teamArray[i],gameDate[d]) && !teamHasGame(teamArray[j],gameDate[d]))
 						{
 							availibleGameDate = gameDate[d];
 							break;
 						}
+						
 					}
 					Game game = new Game(this,teamArray[i],teamArray[j],availibleGameDate);
+					System.out.println("Add:"+game);
+					emDAO.getEM().flush();
 					emDAO.getEM().refresh(this);
 				}
 			}
@@ -177,14 +182,16 @@ public class Schedule
 	
 	public boolean teamHasGame(Team team, Date gameDate)
 	{
-		boolean hasGame = true;
+		if (getGames().isEmpty()) return false;
+		boolean hasGame = false;
 		for (Game g : getGames())
-		{ 
-			if (g.getDate().compareTo((gameDate))==0)
-			{
-				hasGame = false;
-				break;
-			}
+		{
+			if (team == g.getHomeTeam() || team == g.getVisitingTeam())
+				if (g.getDate().compareTo((gameDate))==0)
+				{
+					hasGame = true;
+					break;
+				}
 		}
 		return hasGame;
 	}

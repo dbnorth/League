@@ -1,5 +1,7 @@
 package soccerLeagueTest;
 
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,9 +13,9 @@ public class GameTest {
 public void setDateTest()
 {
 	Game game = new Game();
-	SimpleDate date = new SimpleDate("08/01/2016");
+	Date date = new Date();
 	game.setDate(date);
-	SimpleDate date1 = game.getDate();
+	Date date1 = game.getDate();
 	Assert.assertTrue("Date is not the same", date1.equals(date));
 }
 }

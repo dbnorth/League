@@ -1,4 +1,4 @@
-package soccerLeagueTest;
+package soccerLeaguePD;
 
 import java.util.Date;
 

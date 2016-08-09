@@ -143,7 +143,8 @@ public class Schedule
 	
 	public void generateSchedule()
 	{
-		Team[] teamArray = getLeague().getTeams().toArray(new Team[getLeague().getTeams().size()]);
+		final Collection<Team> teamCol = getLeague().getTeams();
+		Team[] teamArray = teamCol.toArray(new Team[teamCol.size()]);
 		Date[] gameDate = new Date[(teamArray.length-1)*2+4];
 		
 		for (int d =0;d<(teamArray.length-1)*2+4;d+=2)
@@ -182,7 +183,7 @@ public class Schedule
 	
 	public boolean teamHasGame(Team team, Date gameDate)
 	{
-		if (getGames().isEmpty()) return false;
+		if (getGames() == null || getGames().isEmpty()) return false;
 		boolean hasGame = false;
 		for (Game g : getGames())
 		{

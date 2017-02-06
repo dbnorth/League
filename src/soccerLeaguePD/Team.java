@@ -61,6 +61,12 @@ public class Team
 	{
 //		players = new ArrayList<Player>();
 	}
+	public Team (String name, String coachName)
+  {
+    this();
+    this.name = name;
+    this.coachName = coachName;
+  }
 	
 	public Team (League league, String name, String coachName)
 	{

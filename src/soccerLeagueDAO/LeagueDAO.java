@@ -1,9 +1,7 @@
 package soccerLeagueDAO;
 
 import java.util.List;
-
 import javax.persistence.TypedQuery;
-
 import soccerLeaguePD.League;
 public class LeagueDAO {
 

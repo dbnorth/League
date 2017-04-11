@@ -228,7 +228,7 @@ public class Game implements Serializable
 	
 	public Team getWinner()
 	{
-		if (getHomeTeamScore() < getVisitingTeamScore())
+		if (getHomeTeamScore() > getVisitingTeamScore())
 			return getHomeTeam();
 		if (getVisitingTeamScore() > getHomeTeamScore())
 			return getVisitingTeam();

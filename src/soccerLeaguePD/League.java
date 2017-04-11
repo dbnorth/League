@@ -1,5 +1,6 @@
 package soccerLeaguePD;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -22,8 +23,10 @@ import soccerLeagueDM.LeagueDM;
  * A League is an organization the a group of teams competes in.
  */
 @Entity(name = "league")
-public class League
+public class League implements Serializable
 {
+  private static final long serialVersionUID = 1L;
+  
 	@Id //signifies the primary key
     @Column(name = "league_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
